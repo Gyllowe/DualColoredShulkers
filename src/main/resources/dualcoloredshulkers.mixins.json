@@ -6,9 +6,11 @@
   "mixins": [
   ],
   "client": [
-    "ExampleMixin",
+    "MixinShulkerBoxBlockEntity",
     "MixinShulkerBoxBlockEntityRenderer",
-    "MixinShulkerBoxBlockEntity"
+    "MixinShulkerEntityModel",
+    "MixinModelPart",
+    "MixinModelPartCuboid"
   ],
   "injectors": {
     "defaultRequire": 1
