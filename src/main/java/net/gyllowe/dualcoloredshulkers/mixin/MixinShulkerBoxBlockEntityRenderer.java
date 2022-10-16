@@ -21,6 +21,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import javax.annotation.Nullable;
+
 @Mixin(ShulkerBoxBlockEntityRenderer.class)
 public abstract class MixinShulkerBoxBlockEntityRenderer {
     private ShulkerBoxBlockEntity shulkerBoxBlockEntity;
@@ -49,6 +51,7 @@ public abstract class MixinShulkerBoxBlockEntityRenderer {
         return value;
     }
 
+
     @Redirect(
             method = "render(Lnet/minecraft/block/entity/ShulkerBoxBlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V",
             at = @At(
@@ -58,27 +61,22 @@ public abstract class MixinShulkerBoxBlockEntityRenderer {
     )
     private void inject(ShulkerEntityModel instance, MatrixStack matrixStack, VertexConsumer vertexConsumer, int i, int j, float r, float g, float b, float a) {
         DualColoredShulkerBlockEntity dualShulkerBE = (DualColoredShulkerBlockEntity)shulkerBoxBlockEntity;
-        if(!dualShulkerBE.hasSecondaryColor) {
+        if(!dualShulkerBE.HasSecondaryColor()) {
             instance.render(matrixStack, vertexConsumer, i, j, r, g, b, a);
             return;
         }
-        DyeColor secondaryColor = dualShulkerBE.secondaryColor;
+        @Nullable
+        DyeColor secondaryColor = dualShulkerBE.GetSecondaryColor();
         SpriteIdentifier secondarySprite = secondaryColor == null ? TexturedRenderLayers.SHULKER_TEXTURE_ID : TexturedRenderLayers.COLORED_SHULKER_BOXES_TEXTURES.get(secondaryColor.getId());
 
         DualShulkerVertexConsumer dualShulkerVertexConsumer =
                 new DualShulkerVertexConsumer(
                         vertexConsumerProvider.getBuffer(this.spriteIdentifier.getRenderLayer(RenderLayer::getEntityCutoutNoCull)),
                         this.spriteIdentifier.getSprite(),
-                        dualShulkerBE.hasSecondaryColor,
+                        dualShulkerBE.HasSecondaryColor(),
                         secondarySprite.getSprite()
                 );
 
         ((DSVC_ShulkerEntityModel_Render)instance).render(matrixStack, dualShulkerVertexConsumer, i, j, r, g, b, a);
     }
-
-
-    /*
-    new ShulkerBaseVertexConsumer(
-            vertexConsumerProvider.getBuffer(spriteIdentifier.getRenderLayer(RenderLayer::getEntityCutoutNoCull))
-     */
 }
