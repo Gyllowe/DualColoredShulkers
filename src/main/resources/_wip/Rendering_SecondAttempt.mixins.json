@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.gyllowe.dualcoloredshulkers._wip.Rendering_SecondAttempt.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+    "RSA_MixinShulkerBoxBlockEntity"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

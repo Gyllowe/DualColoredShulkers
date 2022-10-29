@@ -3,14 +3,11 @@
   "minVersion": "0.8",
   "package": "net.gyllowe.dualcoloredshulkers.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-  ],
+  "mixins": [],
   "client": [
     "MixinShulkerBoxBlockEntity",
-    "MixinShulkerBoxBlockEntityRenderer",
-    "MixinShulkerEntityModel",
-    "MixinModelPart",
-    "MixinModelPartCuboid"
+    "ShulkerEntityModelMixin",
+    "ShulkerBoxBlockEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

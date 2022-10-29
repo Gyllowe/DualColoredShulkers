@@ -5,14 +5,13 @@ import net.minecraft.util.DyeColor;
 
 import javax.annotation.Nullable;
 
-public interface DualColoredShulkerBlockEntity<T extends ShulkerBoxBlockEntity> {
-    // TODO: change interface to have getters (and setters if needed) instead of finals
-    //boolean hasSecondaryColor = true;
-    //@Nullable
-    //DyeColor secondaryColor = DyeColor.WHITE;
+public interface DualColoredShulkerBlockEntity {
+	boolean HasSecondaryColor();
 
-    boolean HasSecondaryColor();
+	@Nullable
+	DyeColor GetSecondaryColor();
 
-    @Nullable
-    DyeColor GetSecondaryColor();
+	ShulkerBoxBlockEntity RemoveSecondaryColor();
+
+	ShulkerBoxBlockEntity SetSecondaryColor(boolean hasSecondaryColor, @Nullable DyeColor color);
 }

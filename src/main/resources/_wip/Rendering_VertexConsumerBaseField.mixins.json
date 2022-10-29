@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.gyllowe.dualcoloredshulkers._wip.Rendering_VertexConsumerBaseField.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+    "RVCBF_MixinShulkerBoxBlockEntity",
+    "RVCBF_ShulkerEntityModelMixin",
+    "RVCBF_ShulkerBoxBlockEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
