@@ -1,8 +1,7 @@
-package net.gyllowe.dualcoloredshulkers.mixin;
+package net.gyllowe.dualcoloredshulkers._wip.Rendering_FirstAttempt.mixin;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerVertexConsumer;
-import net.gyllowe.dualcoloredshulkers.interfaces.ColoredShulkerModelPart;
-import net.gyllowe.dualcoloredshulkers.interfaces.ColoredShulkerModelPartCuboid;
+import net.gyllowe.dualcoloredshulkers._wip.Rendering_FirstAttempt.interfaces.ModelPartSetShulkerBase;
+import net.gyllowe.dualcoloredshulkers._wip.Rendering_FirstAttempt.interfaces.ModelPartCuboidSetShulkerBase;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -17,18 +16,17 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.List;
 
 @Mixin(ModelPart.class)
-public abstract class MixinModelPart
-        implements ColoredShulkerModelPart {
+public abstract class RFA_MixinModelPart
+        implements ModelPartSetShulkerBase {
     @Shadow @Final
     private List<ModelPart.Cuboid> cuboids;
     private Boolean isShulkerBase = false;
-    private DualShulkerVertexConsumer dualShulkerVertexConsumer;
 
-    public ColoredShulkerModelPart SetShulkerBase(DualShulkerVertexConsumer dualShulkerVertexConsumer) {
+    public ModelPartSetShulkerBase SetShulkerBase() {
         this.isShulkerBase = true;
-        this.dualShulkerVertexConsumer = dualShulkerVertexConsumer;
-        return (ColoredShulkerModelPart)(Object)this;
+        return (ModelPartSetShulkerBase)(Object)this;
     }
+    public boolean IsBase() {return this.isShulkerBase;}
 
 
     @Inject(
@@ -40,8 +38,8 @@ public abstract class MixinModelPart
     void inject(MatrixStack.Entry entry, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
         if(this.isShulkerBase) {
             for (ModelPart.Cuboid cuboid : this.cuboids) {
-                ((ColoredShulkerModelPartCuboid)cuboid).SetShulkerBase(this.dualShulkerVertexConsumer);
-                cuboid.renderCuboid(entry, null, light, overlay, red, green, blue, alpha);
+                ( (ModelPartCuboidSetShulkerBase) cuboid ).SetShulkerBase();
+                cuboid.renderCuboid(entry, vertexConsumer, light, overlay, red, green, blue, alpha);
             }
             ci.cancel();
         }

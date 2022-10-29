@@ -1,4 +1,4 @@
-package net.gyllowe.dualcoloredshulkers.Debugging;
+package net.gyllowe.dualcoloredshulkers._debugging;
 
 import net.gyllowe.dualcoloredshulkers.DualColoredShulkers;
 
