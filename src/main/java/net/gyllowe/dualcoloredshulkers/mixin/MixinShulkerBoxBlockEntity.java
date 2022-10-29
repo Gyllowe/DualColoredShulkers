@@ -3,17 +3,21 @@ package net.gyllowe.dualcoloredshulkers.mixin;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.util.DyeColor;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
 import javax.annotation.Nullable;
 
 @Mixin(ShulkerBoxBlockEntity.class)
 public abstract class MixinShulkerBoxBlockEntity
 		implements DualColoredShulkerBlockEntity {
+	@Shadow @Final @org.jetbrains.annotations.Nullable
+	private DyeColor cachedColor;
 	//@Final @Mutable
-	boolean hasSecondaryColor = true;//false;
-	@Nullable //@Final @Mutable
-	DyeColor secondaryColor = DyeColor.WHITE;//null;
+	private boolean hasSecondaryColor = false;
+	@org.jetbrains.annotations.Nullable //@Final @Mutable
+	private DyeColor secondaryColor = null;
 
 
 	public boolean HasSecondaryColor() {
@@ -30,7 +34,7 @@ public abstract class MixinShulkerBoxBlockEntity
 		return (ShulkerBoxBlockEntity)(Object)this;
 	}
 	public ShulkerBoxBlockEntity SetSecondaryColor(boolean hasColor, @Nullable DyeColor color) {
-		if(!hasColor) {
+		if(!hasColor || color == cachedColor) {
 			return this.RemoveSecondaryColor();
 		}
 		hasSecondaryColor = true;
