@@ -157,7 +157,7 @@ public class DualShulkerBlockCommand {
 					.append( (color == null) ? "blank" : color );
 
 		} else if(mode == CommandMode.Query) {
-			// TODO: fix base color returning null when shulker box doesn't have a secondary color (DualShulkerBlockCommand) query
+			// TODO: fix base color returning null when shulker box doesn't have a secondary color (DualShulkerBlockCommand query)
 			String lidColor = "";
 			String baseColor = "";
 			if(shulkerPart != ShulkerPart.BASE) {
