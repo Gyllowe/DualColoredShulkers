@@ -1,6 +1,7 @@
 package net.gyllowe.dualcoloredshulkers.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
@@ -13,9 +14,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
-
 public class DualShulkerBlockCommand {
 	public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
 		dispatcher.register(
@@ -23,8 +21,8 @@ public class DualShulkerBlockCommand {
 						.then(CommandManager.literal("block")
 								.then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
 
-										// <color>/blank <shulkerpart>
-										.then(CommandManager.argument("dyecolor", DyeColorArgumentType.dyeColor())
+										// <color> <shulkerpart>
+										.then(CommandManager.argument("dualshulkercolor", DualShulkerColorArgumentType.dualShulkerColor())
 												.then(CommandManager.argument("shulkerpart", ShulkerPartArgumentType.shulkerPart())
 														.executes(
 																context -> DualShulkerBlockCommand.ExecuteColor(
@@ -33,28 +31,10 @@ public class DualShulkerBlockCommand {
 																				context,
 																				"pos"
 																		),
-																		DyeColorArgumentType.getDyeColor(
+																		DualShulkerColorArgumentType.getDualShulkerColor(
 																				context,
-																				"dyecolor"
+																				"dualshulkercolor"
 																		),
-																		ShulkerPartArgumentType.getShulkerPart(
-																				context,
-																				"shulkerpart"
-																		)
-																)
-														)
-												)
-										)
-										.then(CommandManager.literal("blank")
-												.then(CommandManager.argument("shulkerpart", ShulkerPartArgumentType.shulkerPart())
-														.executes(
-																context -> DualShulkerBlockCommand.ExecuteColor(
-																		context.getSource(),
-																		BlockPosArgumentType.getBlockPos(
-																				context,
-																				"pos"
-																		),
-																		null,
 																		ShulkerPartArgumentType.getShulkerPart(
 																				context,
 																				"shulkerpart"
@@ -82,40 +62,18 @@ public class DualShulkerBlockCommand {
 														)
 												)
 										)
-
-										// removebasecolor
-										.then(CommandManager.literal("removebasecolor")
-												.executes(
-														context -> DualShulkerBlockCommand.ExecuteRemoveBaseColor(
-																context.getSource(),
-																BlockPosArgumentType.getBlockPos(
-																		context,
-																		"pos"
-																)
-														)
-												)
-										)
 								)
 						)
-		);
-		//			/dualshulker block ~ ~-1 ~ white lid
-		//			/dualshulker block ~ ~-1 ~ query both
-
-		//			/dualshulker block <pos> <color> ( lid | base | both )
-		//			/dualshulker block <pos> blank ( lid | base | both )
-		//			/dualshulker block <pos> query ( lid | base | both )
-		//			/dualshulker block <pos> removebasecolor
-	}
+		);}
 	//			/dualshulker block ~ ~-1 ~ white lid
 	//			/dualshulker block ~ ~-1 ~ query both
 
 	//			/dualshulker block <pos> <color> ( lid | base | both )
-	//			/dualshulker block <pos> blank ( lid | base | both )
 	//			/dualshulker block <pos> query ( lid | base | both )
-	//			/dualshulker block <pos> removebasecolor
 
-	private static int execute(ServerCommandSource source, BlockPos pos, CommandMode mode, @Nullable DyeColor color, ShulkerPart shulkerPart) {
+	private static int execute(ServerCommandSource source, BlockPos pos, CommandMode mode, DualShulkerColor dualShulkerColor, ShulkerPart shulkerPart) {
 		ServerWorld world = source.getWorld();
+		DyeColor normalDyeColor = dualShulkerColor.ToDyeColor();
 
 		BlockEntity BE = world.getBlockEntity(pos);
 		if( !(BE instanceof ShulkerBoxBlockEntity ShulkerBE) ) {
@@ -130,17 +88,20 @@ public class DualShulkerBlockCommand {
 
 		if(mode == CommandMode.Color) {
 			if(shulkerPart != ShulkerPart.BASE) {
+				if(dualShulkerColor.isNone()) {
+					source.sendFeedback(Text.of("Only the base can be colored none!"), false);
+					return 0;
+				}
 				// TODO: color lid of shulker box block with command (DualShulkerBlockCommand)
 				source.sendFeedback(Text.of("Coloring lids isn't implemented yet!"), false);
 				return 0;
 			}
 			if(shulkerPart != ShulkerPart.LID) {
-				if(color == ShulkerBE.getColor()) {
-					DualShulkerBE.RemoveSecondaryColor();
+				if(dualShulkerColor.notNone()) {
+					DualShulkerBE.DualColoredShulkers$setSecondaryColor(dualShulkerColor);
 				} else {
-					DualShulkerBE.SetSecondaryColor(true, color);
+					DualShulkerBE.DualColoredShulkers$removeSecondaryColor();
 				}
-
 			}
 
 			// ( "Lid" | "Base" | "Lid and base" )" of shulker at"( x y z)" colored "(color)
@@ -154,24 +115,23 @@ public class DualShulkerBlockCommand {
 			feedbackBuilder.append(" of shulker box at")
 					.append(AppendXYZ(pos))
 					.append(" colored ")
-					.append( (color == null) ? "blank" : color );
-
+					.append( dualShulkerColor );
 		} else if(mode == CommandMode.Query) {
 			// TODO: fix base color returning null when shulker box doesn't have a secondary color (DualShulkerBlockCommand query)
 			String lidColor = "";
 			String baseColor = "";
 			if(shulkerPart != ShulkerPart.BASE) {
-				lidColor = (ShulkerBE.getColor() == null) ? "blank" : ShulkerBE.getColor().asString();
+				lidColor = (ShulkerBE.getColor() == null) ? "blank" : ShulkerBE.getColor().toString();
 			}
 			if(shulkerPart != ShulkerPart.LID) {
-				baseColor = (DualShulkerBE.GetSecondaryColor() == null) ? "blank" : DualShulkerBE.GetSecondaryColor().asString();
+				baseColor = DualShulkerBE.DualColoredShulkers$getSecondaryColor().toString();
 			}
 
 			feedbackBuilder.append("Shulker box at")
 					.append(AppendXYZ(pos))
 					.append(" has ");
 
-			if(shulkerPart == ShulkerPart.BOTH && Objects.equals(lidColor, baseColor)) {
+			if(shulkerPart == ShulkerPart.BOTH && /*lid and base strings are the same*/false ) {
 				feedbackBuilder.append("lid and base color ")
 						.append(lidColor);
 			} else {
@@ -188,16 +148,11 @@ public class DualShulkerBlockCommand {
 				}
 			}
 
-		} else if(mode == CommandMode.RemoveBaseColor) {
-			DualShulkerBE.RemoveSecondaryColor();
-
-			feedbackBuilder.append("Base of shulker box at")
-					.append(AppendXYZ(pos))
-					.append(" colored to lid color (")
-					.append(ShulkerBE.getColor())
-					.append(")");
 		}
 
+		if(mode != CommandMode.Query) {
+			BE.markDirty();
+		}
 		source.sendFeedback(Text.of( feedbackBuilder.toString() ), false);
 		return 1;
 		/*
@@ -235,22 +190,17 @@ public class DualShulkerBlockCommand {
 		return builder;
 	}
 
-	private static int ExecuteColor(ServerCommandSource source, BlockPos pos, DyeColor color, ShulkerPart shulkerPart) {
+	private static int ExecuteColor(ServerCommandSource source, BlockPos pos, DualShulkerColor color, ShulkerPart shulkerPart) {
 		return execute(source, pos, CommandMode.Color, color, shulkerPart);
 	}
 
 	private static int ExecuteQuery(ServerCommandSource source, BlockPos pos, ShulkerPart shulkerPart) {
-		return execute(source, pos, CommandMode.Query, null, shulkerPart);
-	}
-
-	private static int ExecuteRemoveBaseColor(ServerCommandSource source, BlockPos pos) {
-		return execute(source, pos, CommandMode.RemoveBaseColor, null, ShulkerPart.BASE);
+		return execute(source, pos, CommandMode.Query, DualShulkerColor.NONE, shulkerPart);
 	}
 
 
 	private enum CommandMode {
 		Color,
-		Query,
-		RemoveBaseColor
+		Query
 	}
 }

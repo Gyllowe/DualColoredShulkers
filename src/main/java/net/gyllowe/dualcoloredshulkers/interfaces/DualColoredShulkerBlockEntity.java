@@ -1,17 +1,11 @@
 package net.gyllowe.dualcoloredshulkers.interfaces;
 
-import net.minecraft.block.entity.ShulkerBoxBlockEntity;
-import net.minecraft.util.DyeColor;
-
-import javax.annotation.Nullable;
+import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
 
 public interface DualColoredShulkerBlockEntity {
-	boolean HasSecondaryColor();
+	DualShulkerColor DualColoredShulkers$getSecondaryColor();
 
-	@Nullable
-	DyeColor GetSecondaryColor();
+	void DualColoredShulkers$setSecondaryColor(DualShulkerColor secondaryColor);
 
-	ShulkerBoxBlockEntity RemoveSecondaryColor();
-
-	ShulkerBoxBlockEntity SetSecondaryColor(boolean hasSecondaryColor, @Nullable DyeColor color);
+	void DualColoredShulkers$removeSecondaryColor();
 }
