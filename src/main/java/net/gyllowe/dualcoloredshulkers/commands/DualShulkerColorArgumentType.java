@@ -10,24 +10,24 @@ import net.minecraft.util.StringIdentifiable;
 import javax.annotation.Nullable;
 
 public class DualShulkerColorArgumentType
-    extends EnumArgumentType<DualShulkerColor> {
+		extends EnumArgumentType<DualShulkerColor> {
 
-    private DualShulkerColorArgumentType() {
-        super(CODEC, DualShulkerColor::values);
-    }
+	private DualShulkerColorArgumentType() {
+		super(CODEC, DualShulkerColor::values);
+	}
 
-    public static DualShulkerColorArgumentType dualShulkerColor() {
-        return new DualShulkerColorArgumentType();
-    }
+	public static DualShulkerColorArgumentType dualShulkerColor() {
+		return new DualShulkerColorArgumentType();
+	}
 
-    @Nullable
-    public static DualShulkerColor getDualShulkerColor(CommandContext<ServerCommandSource> context, String id) {
-        return context.getArgument(id, DualShulkerColor.class);
-    }
+	@Nullable
+	public static DualShulkerColor getDualShulkerColor(CommandContext<ServerCommandSource> context, String id) {
+		return context.getArgument(id, DualShulkerColor.class);
+	}
 
-    public static final Codec<DualShulkerColor> CODEC;
+	public static final Codec<DualShulkerColor> CODEC;
 
-    static {
-        CODEC = StringIdentifiable.createCodec(DualShulkerColor::values);
-    }
+	static {
+		CODEC = StringIdentifiable.createCodec(DualShulkerColor::values);
+	}
 }
