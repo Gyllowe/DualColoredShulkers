@@ -12,10 +12,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ShulkerEntityModel.class)
-public abstract class ShulkerEntityModelMixin<T extends ShulkerEntity>
+public abstract class MixinShulkerEntityModel<T extends ShulkerEntity>
 		extends CompositeEntityModel<T> {
-	@Shadow @Final
-	private ModelPart lid, base;
+	@Shadow @Final private ModelPart lid, base;
 
 
 	@Override

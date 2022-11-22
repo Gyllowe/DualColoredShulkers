@@ -4,11 +4,13 @@
   "package": "net.gyllowe.dualcoloredshulkers.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "MixinLootFunctionTypes",
     "MixinShulkerBoxBlockEntity"
   ],
   "client": [
-    "ShulkerEntityModelMixin",
-    "ShulkerBoxBlockEntityRendererMixin"
+    "MixinBuiltInModelItemRenderer",
+    "MixinShulkerBoxBlockEntityRenderer",
+    "MixinShulkerEntityModel"
   ],
   "injectors": {
     "defaultRequire": 1
