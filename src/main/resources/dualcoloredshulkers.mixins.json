@@ -4,6 +4,7 @@
   "package": "net.gyllowe.dualcoloredshulkers.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "MixinItems",
     "MixinLootFunctionTypes",
     "MixinShulkerBoxBlockEntity"
   ],
