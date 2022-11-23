@@ -1,6 +1,5 @@
 package net.gyllowe.dualcoloredshulkers.mixin;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerColorFunctionType;
 import net.gyllowe.dualcoloredshulkers.DualShulkerColorLootFunction;
 import net.minecraft.loot.function.LootFunction;
 import net.minecraft.loot.function.LootFunctionType;
@@ -21,6 +20,6 @@ public abstract class MixinLootFunctionTypes {
 			at = @At("HEAD")
 	)
 	private static void inject(CallbackInfo ci) {
-		DualShulkerColorFunctionType.FUNCTION_TYPE_DUAL_SHULKER_COLOR = register("dual_shulker_color", new DualShulkerColorLootFunction.Serializer());
+		DualShulkerColorLootFunction.setDualShulkerColorFunctionType(register("dual_shulker_color", new DualShulkerColorLootFunction.Serializer()));
 	}
 }

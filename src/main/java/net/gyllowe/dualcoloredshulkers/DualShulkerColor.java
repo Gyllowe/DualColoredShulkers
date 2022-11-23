@@ -15,12 +15,12 @@ public enum DualShulkerColor
 	WHITE(0),
 	ORANGE(1),
 	MAGENTA(2),
-	LIGHT_BLUE(3, "light blue"),
+	LIGHT_BLUE(3, "light blue", "Light Blue"),
 	YELLOW(4),
 	LIME(5),
 	PINK(6),
 	GRAY(7),
-	LIGHT_GRAY(8, "light gray"),
+	LIGHT_GRAY(8, "light gray", "Light Gray"),
 	CYAN(9),
 	PURPLE(10),
 	BLUE(11),
@@ -33,11 +33,17 @@ public enum DualShulkerColor
 	private static final DualShulkerColor[] VALUES;
 	private final byte id;
 	private final String name;
+	private final String nameCapitalized;
 
 
-	DualShulkerColor(int id, String name) {
+	DualShulkerColor(int id, String name, String nameCapitalized) {
 		this.id = (byte)id;
 		this.name = (name == null) ? this.name().toLowerCase() : name;
+		this.nameCapitalized = (nameCapitalized == null) ? this.name.substring(0, 1).toUpperCase() + this.name.substring(1) : nameCapitalized;
+	}
+
+	DualShulkerColor(int id, String name) {
+		this(id, name, null);
 	}
 
 	DualShulkerColor(int id) {
@@ -90,17 +96,12 @@ public enum DualShulkerColor
 	}
 
 
-	public String toStringLowercase() {
-		return this.toString().toLowerCase();
-	}
-
 	public String GetNameNoSpace() {
 		return this.name();
 	}
 
 	public String GetNameCapitalized() {
-		String name = this.toString();
-		return name.substring(0, 1).toUpperCase() + name.substring(1);
+		return this.nameCapitalized;
 	}
 
 
@@ -110,6 +111,10 @@ public enum DualShulkerColor
 			return null;
 		}
 		return DyeColor.byId(this.id);
+	}
+
+	public static DualShulkerColor FromDyeColor(@Nullable DyeColor dyeColor) {
+		return (dyeColor == null) ? DualShulkerColor.BLANK : DualShulkerColor.byId( (byte) dyeColor.getId() );
 	}
 
 

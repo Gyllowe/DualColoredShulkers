@@ -16,13 +16,24 @@ import net.minecraft.nbt.NbtCompound;
 
 public class DualShulkerColorLootFunction
 		extends ConditionalLootFunction {
+	private static LootFunctionType FUNCTION_TYPE_DUAL_SHULKER_COLOR;
+
+	public static LootFunctionType getDualShulkerColorFunctionType() {
+		return FUNCTION_TYPE_DUAL_SHULKER_COLOR;
+	}
+	public static void setDualShulkerColorFunctionType(LootFunctionType functionTypeDualShulkerColor) {
+		if(FUNCTION_TYPE_DUAL_SHULKER_COLOR != null) {
+			FUNCTION_TYPE_DUAL_SHULKER_COLOR = functionTypeDualShulkerColor;
+		}
+	}
+
 	protected DualShulkerColorLootFunction(LootCondition[] conditions) {
 		super(conditions);
 	}
 
 	@Override
 	public LootFunctionType getType() {
-		return DualShulkerColorFunctionType.FUNCTION_TYPE_DUAL_SHULKER_COLOR;
+		return FUNCTION_TYPE_DUAL_SHULKER_COLOR;
 	}
 
 	@Override
