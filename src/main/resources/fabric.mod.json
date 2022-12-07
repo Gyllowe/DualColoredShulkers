@@ -10,19 +10,16 @@
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Gyllowe/DualColoredShulkers"
   },
 
   "license": "MIT Licence",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/dualcoloredshulkers/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
       "net.gyllowe.dualcoloredshulkers.DualColoredShulkers"
-    ],
-    "client": [
-      "net.gyllowe.dualcoloredshulkers.DualColoredShulkersClient"
     ]
   },
   "mixins": [
@@ -30,9 +27,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.6",
+    "fabricloader": ">=0.14.11",
     "fabric": "*",
-    "minecraft": "~1.19",
+    "minecraft": ["~1.19"],
     "java": ">=17"
   },
   "suggests": {

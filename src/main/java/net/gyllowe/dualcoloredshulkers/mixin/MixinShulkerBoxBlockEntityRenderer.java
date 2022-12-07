@@ -14,14 +14,13 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.ShulkerBoxBlockEntityRenderer;
 import net.minecraft.client.render.entity.model.ShulkerEntityModel;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
 import java.util.function.Function;
 
 @Mixin(ShulkerBoxBlockEntityRenderer.class)
@@ -37,18 +36,17 @@ public abstract class MixinShulkerBoxBlockEntityRenderer
 					target = "Lnet/minecraft/client/render/entity/model/ShulkerEntityModel;<init>(Lnet/minecraft/client/model/ModelPart;)V"
 			)
 	)
-	private ModelPart SetDualShulkerRenderingModel(ModelPart root) {
-		DualShulkerRendering.SetModel(new ShulkerEntityModel<>(root));
-		return root;
+	private ModelPart SetDualShulkerRenderingModel(ModelPart layerModelPart) {
+		DualShulkerRendering.SetModel(new ShulkerEntityModel(layerModelPart));
+		return layerModelPart;
 	}
 
-	@ModifyVariable(
+	@Inject(
 			method = "render(Lnet/minecraft/block/entity/ShulkerBoxBlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V",
-			at = @At("HEAD"),
-			argsOnly = true
+			at = @At("HEAD")
 	)
-	private ShulkerBoxBlockEntity BlockEntityCapture(ShulkerBoxBlockEntity value) {
-		return this.shulkerBoxBlockEntity = value;
+	private void BlockEntityCapture(ShulkerBoxBlockEntity shulkerBoxBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j, CallbackInfo ci) {
+		this.shulkerBoxBlockEntity = shulkerBoxBlockEntity;
 	}
 
 	@Redirect(
@@ -63,8 +61,8 @@ public abstract class MixinShulkerBoxBlockEntityRenderer
 		@Nullable SpriteIdentifier secondarySpriteIdentifier = null;
 
 		DualColoredShulkerBlockEntity dualShulkerBE = (DualColoredShulkerBlockEntity)shulkerBoxBlockEntity;
-		if(dualShulkerBE.DualColoredShulkers$getSecondaryColor().notNone()) {
-			secondaryColor = dualShulkerBE.DualColoredShulkers$getSecondaryColor();
+		if(dualShulkerBE.dualcoloredshulkers$getSecondaryColor().notNone()) {
+			secondaryColor = dualShulkerBE.dualcoloredshulkers$getSecondaryColor();
 			secondarySpriteIdentifier = (secondaryColor == DualShulkerColor.BLANK) ? TexturedRenderLayers.SHULKER_TEXTURE_ID : TexturedRenderLayers.COLORED_SHULKER_BOXES_TEXTURES.get(secondaryColor.getId());
 		}
 

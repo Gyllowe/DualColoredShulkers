@@ -2,8 +2,8 @@ package net.gyllowe.dualcoloredshulkers;
 
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.StringIdentifiable;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -92,13 +92,9 @@ public enum DualShulkerColor
 
 	@Override
 	public String asString() {
-		return this.GetNameNoSpace().toLowerCase();
+		return this.name;
 	}
 
-
-	public String GetNameNoSpace() {
-		return this.name();
-	}
 
 	public String GetNameCapitalized() {
 		return this.nameCapitalized;

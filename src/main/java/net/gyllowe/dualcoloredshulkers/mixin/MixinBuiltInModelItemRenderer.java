@@ -1,8 +1,6 @@
 package net.gyllowe.dualcoloredshulkers.mixin;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
-import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
-import net.gyllowe.dualcoloredshulkers.DualShulkerRendering;
+import net.gyllowe.dualcoloredshulkers.*;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
@@ -30,8 +28,8 @@ public abstract class MixinBuiltInModelItemRenderer {
 			locals = LocalCapture.CAPTURE_FAILHARD
 	)
 	private void RenderShulker(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, CallbackInfo ci, Item item) {
-		DualShulkerColor secondaryColor = DualShulkerNbt.ReadFromItemStack(stack);
-		if(secondaryColor == null) {
+		DualShulkerColor secondaryColor = DualShulkerNbt.ReadFrom(stack);
+		if(secondaryColor.isNone()) {
 			return;
 		}
 		ci.cancel();

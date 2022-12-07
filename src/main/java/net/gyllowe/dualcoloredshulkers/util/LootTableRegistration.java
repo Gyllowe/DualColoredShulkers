@@ -5,6 +5,8 @@ import net.gyllowe.dualcoloredshulkers.DualShulkerColorLootFunction;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 
+import java.util.Arrays;
+
 public abstract class LootTableRegistration {
 	private static final Identifier[] _shulkerBoxLootTableIds = {
 			Blocks.SHULKER_BOX.getLootTableId(),
@@ -32,25 +34,7 @@ public abstract class LootTableRegistration {
 			if(!source.isBuiltin()) {
 				return;
 			}
-			if(
-					_shulkerBoxLootTableIds[0].equals(id) ||
-					_shulkerBoxLootTableIds[1].equals(id) ||
-					_shulkerBoxLootTableIds[2].equals(id) ||
-					_shulkerBoxLootTableIds[3].equals(id) ||
-					_shulkerBoxLootTableIds[4].equals(id) ||
-					_shulkerBoxLootTableIds[5].equals(id) ||
-					_shulkerBoxLootTableIds[6].equals(id) ||
-					_shulkerBoxLootTableIds[7].equals(id) ||
-					_shulkerBoxLootTableIds[8].equals(id) ||
-					_shulkerBoxLootTableIds[9].equals(id) ||
-					_shulkerBoxLootTableIds[10].equals(id) ||
-					_shulkerBoxLootTableIds[11].equals(id) ||
-					_shulkerBoxLootTableIds[12].equals(id) ||
-					_shulkerBoxLootTableIds[13].equals(id) ||
-					_shulkerBoxLootTableIds[14].equals(id) ||
-					_shulkerBoxLootTableIds[15].equals(id) ||
-					_shulkerBoxLootTableIds[16].equals(id)
-			) {
+			if(Arrays.asList(_shulkerBoxLootTableIds).contains(id)) {
 				tableBuilder.apply(
 						DualShulkerColorLootFunction.builder()
 				);
