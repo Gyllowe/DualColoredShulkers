@@ -2,24 +2,30 @@ package net.gyllowe.dualcoloredshulkers;
 
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class ItemNameGenerator {
 	public static Text GenerateText(@Nullable DyeColor primaryColor, DualShulkerColor secondaryColor) {
-		DualShulkerColor dualMainColor = DualShulkerColor.FromDyeColor(primaryColor);
+		DualShulkerColor dualPrimaryColor = DualShulkerColor.FromDyeColor(primaryColor);
 
 		StringBuilder stringBuilder = new StringBuilder();
-		if(dualMainColor != DualShulkerColor.BLANK) {
+		if(dualPrimaryColor != DualShulkerColor.BLANK) {
+			if(secondaryColor != DualShulkerColor.BLANK) {
+				stringBuilder
+						.append(dualPrimaryColor.GetNameCapitalized())
+						.append(" And ")
+						.append(secondaryColor.GetNameCapitalized());
+			} else {
+				stringBuilder
+						.append("Mostly ")
+						.append(dualPrimaryColor.GetNameCapitalized());
+			}
+		}	else {
 			stringBuilder
-					.append(dualMainColor.GetNameCapitalized())
-					.append(" And ");
-		} else {
-			stringBuilder.append("Partly ");
+					.append("Partly ")
+					.append(secondaryColor.GetNameCapitalized());
 		}
-		stringBuilder
-				.append(secondaryColor.GetNameCapitalized())
-				.append(" Shulker Box");
+		stringBuilder.append(" Shulker Box");
 
 		return Text.of(stringBuilder.toString());
 	}

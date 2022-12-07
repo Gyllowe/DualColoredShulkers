@@ -1,6 +1,10 @@
 plugins {
-	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.0-SNAPSHOT'
 	id 'maven-publish'
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/DualColoredShulkers.accessWidener")
 }
 
 sourceCompatibility = JavaVersion.VERSION_17

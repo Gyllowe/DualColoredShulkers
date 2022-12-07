@@ -6,8 +6,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class ShulkerBoxItem
 		extends BlockItem {
@@ -27,12 +26,16 @@ public class ShulkerBoxItem
 
 	@Override
 	public Text getName(ItemStack stack) {
-		DualShulkerColor secondaryColor = DualShulkerNbt.ReadFromItemStack(stack);
-		if(secondaryColor == null || secondaryColor.isNone()) {
+		DualShulkerColor secondaryColor = DualShulkerNbt.ReadFrom(stack);
+		if(secondaryColor.isNone()) {
 			return Text.translatable(this.getTranslationKey(stack));
 		}
-		@Nullable DyeColor mainColor = this.color;
+		return ItemNameGenerator.GenerateText(this.color, secondaryColor);
+	}
 
-		return ItemNameGenerator.GenerateText(mainColor, secondaryColor);
+
+	@Nullable
+	public DyeColor getColor() {
+		return this.color;
 	}
 }

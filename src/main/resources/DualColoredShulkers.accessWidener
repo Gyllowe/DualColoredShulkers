@@ -1,0 +1,3 @@
+accessWidener	v1 named
+
+accessible field net/minecraft/item/BlockItem BLOCK_ENTITY_TAG_KEY Ljava/lang/String;
