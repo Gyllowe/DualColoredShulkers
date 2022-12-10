@@ -44,14 +44,11 @@ public abstract class MixinShulkerBoxBlockEntityRenderer
 			)
 	)
 	private VertexConsumer ReplaceWithDualShulkerVC(SpriteIdentifier spriteIdentifier, VertexConsumerProvider vertexConsumerProvider, Function<Identifier, RenderLayer> layerFactory) {
-		DualShulkerColor secondaryColor = DualShulkerColor.NONE;
 		@Nullable SpriteIdentifier secondarySpriteIdentifier = null;
 
-		DualColoredShulkerBlockEntity dualShulkerBE = (DualColoredShulkerBlockEntity)shulkerBoxBlockEntity;
-		if(dualShulkerBE.dualcoloredshulkers$getSecondaryColor().notNone()) {
-			secondaryColor = dualShulkerBE.dualcoloredshulkers$getSecondaryColor();
+		DualShulkerColor secondaryColor = ( (DualColoredShulkerBlockEntity) shulkerBoxBlockEntity ).dualcoloredshulkers$getSecondaryColor();
+		if(secondaryColor.notNone())
 			secondarySpriteIdentifier = (secondaryColor == DualShulkerColor.BLANK) ? TexturedRenderLayers.SHULKER_TEXTURE_ID : TexturedRenderLayers.COLORED_SHULKER_BOXES_TEXTURES.get(secondaryColor.getId());
-		}
 
 		return new DualShulkerVertexConsumer(
 				vertexConsumerProvider.getBuffer(spriteIdentifier.getRenderLayer(layerFactory)),

@@ -37,7 +37,7 @@ public abstract class MixinBuiltInModelItemRenderer {
 			},
 			locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private void RenderShulker(ItemStack stack, ModelTransformation.Mode var2, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, CallbackInfo ci, Item item, Block block, BlockEntity blockEntity) {
+	private void RenderShulker(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, CallbackInfo ci, Item item, Block block, BlockEntity blockEntity) {
 		DualShulkerColor secondaryColor = DualShulkerNbt.ReadFrom(stack);
 		( (DualColoredShulkerBlockEntity) blockEntity ).dualcoloredshulkers$setSecondaryColor(secondaryColor);
 	}
