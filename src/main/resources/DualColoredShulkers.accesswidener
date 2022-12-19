@@ -1,4 +1,7 @@
-accessWidener	v1 named
+accessWidener	v1	named
 
+# For removing nbt automatically written to shulker box items
 accessible field net/minecraft/item/BlockItem BLOCK_ENTITY_TAG_KEY Ljava/lang/String;
+
+# For setting custom shulker box blocks' blockstate
 mutable field net/minecraft/block/Block stateManager Lnet/minecraft/state/StateManager;
