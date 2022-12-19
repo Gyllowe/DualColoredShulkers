@@ -10,7 +10,8 @@
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/Gyllowe/DualColoredShulkers"
+    "sources": "https://github.com/Gyllowe/DualColoredShulkers",
+    "issues": "https://github.com/Gyllowe/DualColoredShulkers/issues"
   },
 
   "license": "MIT Licence",
@@ -25,6 +26,7 @@
   "mixins": [
     "dualcoloredshulkers.mixins.json"
   ],
+  "accessWidener" : "DualColoredShulkers.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.14.11",

@@ -36,6 +36,7 @@ public abstract class MixinShulkerBoxBlock
 		StateManager.Builder<Block, BlockState> builder = new StateManager.Builder<>(this);
 		this.appendProperties(builder);
 		this.stateManager = builder.build(Block::getDefaultState, ShulkerBlockState::new);
+		this.setDefaultState(this.stateManager.getDefaultState());
 	}
 
 
