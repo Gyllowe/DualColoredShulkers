@@ -60,8 +60,10 @@ dependencies {
 
 
 	// Speed up load times
-	modLocalRuntime "local:fungible-1.2+MC1.19.2"
 	modLocalRuntime "maven.modrinth:lazydfu:${project.lazydfu_version}"
+	if(project.minecraft_version.toString() == "1.19.2") {
+		modLocalRuntime "local:fungible-1.2+MC1.19.2"
+	}
 
 
 	// Uncomment the following line to enable the deprecated Fabric API modules.
