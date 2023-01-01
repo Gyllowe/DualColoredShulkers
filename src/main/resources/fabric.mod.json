@@ -9,7 +9,6 @@
     "Gyllowe"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/Gyllowe/DualColoredShulkers",
     "issues": "https://github.com/Gyllowe/DualColoredShulkers/issues"
   },
@@ -24,7 +23,11 @@
     ]
   },
   "mixins": [
-    "dualcoloredshulkers.mixins.json"
+    "dualcoloredshulkers.mixins.json",
+    {
+      "config": "dcs.model.conditional.mixins.json",
+      "environment": "client"
+    }
   ],
   "accessWidener" : "DualColoredShulkers.accesswidener",
 
@@ -34,7 +37,8 @@
     "minecraft": ["~1.19"],
     "java": ">=17"
   },
-  "suggests": {
-    "another-mod": "*"
+  "conflicts": {
+    "entity_texture_features": "*",
+    "enhancedblockentities": "*"
   }
 }

@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.gyllowe.dualcoloredshulkers.mixin.conditional",
+  "plugin": "net.gyllowe.dualcoloredshulkers.mixin_plugins.MixinsPluginETFCrashFix",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "MixinShulkerEntityModel",
+    "MixinShulkerEntityModel_ETF"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
