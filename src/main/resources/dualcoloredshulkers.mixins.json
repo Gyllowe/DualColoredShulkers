@@ -13,8 +13,7 @@
   ],
   "client": [
     "MixinBuiltInModelItemRenderer",
-    "MixinShulkerBoxBlockEntityRenderer",
-    "MixinShulkerEntityModel"
+    "MixinShulkerBoxBlockEntityRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

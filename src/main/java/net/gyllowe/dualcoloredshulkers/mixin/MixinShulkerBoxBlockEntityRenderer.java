@@ -1,7 +1,7 @@
 package net.gyllowe.dualcoloredshulkers.mixin;
 
 import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
-import net.gyllowe.dualcoloredshulkers.DualShulkerVertexConsumer;
+import net.gyllowe.dualcoloredshulkers.DualSpriteTexturedVertexConsumer;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -50,10 +50,9 @@ public abstract class MixinShulkerBoxBlockEntityRenderer
 		if(secondaryColor.notNone())
 			secondarySpriteIdentifier = (secondaryColor == DualShulkerColor.BLANK) ? TexturedRenderLayers.SHULKER_TEXTURE_ID : TexturedRenderLayers.COLORED_SHULKER_BOXES_TEXTURES.get(secondaryColor.getId());
 
-		return new DualShulkerVertexConsumer(
+		return new DualSpriteTexturedVertexConsumer(
 				vertexConsumerProvider.getBuffer(spriteIdentifier.getRenderLayer(layerFactory)),
 				spriteIdentifier.getSprite(),
-				secondaryColor.notNone(),
 				(secondaryColor.isNone()) ? null : secondarySpriteIdentifier.getSprite()
 		);
 	}
