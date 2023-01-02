@@ -56,9 +56,7 @@ public interface MixinCauldronBehavior {
 			locals = LocalCapture.CAPTURE_FAILHARD
 	)
 	private static void ReturnIfShulkerIsClean(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir, Block block) {
-		if(block != Blocks.SHULKER_BOX)
-			return;
-		if(!DualShulkerNbt.Contains(stack))
+		if(block == Blocks.SHULKER_BOX && !DualShulkerNbt.Contains(stack))
 			cir.setReturnValue(ActionResult.PASS);
 	}
 

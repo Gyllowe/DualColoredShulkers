@@ -1,7 +1,8 @@
-package net.gyllowe.dualcoloredshulkers;
+package net.gyllowe.dualcoloredshulkers.replacing_mc_classes;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
+import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

@@ -23,18 +23,14 @@
     ]
   },
   "mixins": [
-    "dualcoloredshulkers.mixins.json",
-    {
-      "config": "dcs.model.conditional.mixins.json",
-      "environment": "client"
-    }
+    "dualcoloredshulkers.mixins.json"
   ],
   "accessWidener" : "DualColoredShulkers.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.14.11",
-    "fabric": "*",
-    "minecraft": ["~1.19"],
+    "fabric-loot-api-v2": "*",
+    "minecraft": "~1.19",
     "java": ">=17"
   },
   "conflicts": {

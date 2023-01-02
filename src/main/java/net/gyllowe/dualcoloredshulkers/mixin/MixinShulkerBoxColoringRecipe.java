@@ -2,7 +2,7 @@ package net.gyllowe.dualcoloredshulkers.mixin;
 
 import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
 import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
-import net.gyllowe.dualcoloredshulkers.ShulkerBoxItem;
+import net.gyllowe.dualcoloredshulkers.replacing_mc_classes.ShulkerBoxItem;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeItem;
@@ -25,8 +25,6 @@ public abstract class MixinShulkerBoxColoringRecipe {
 	// if(Block.getBlockFromItem(item) instanceof ShulkerBoxBlock)
 	// It is less efficient, but might be slightly more friendly to other mods,
 	// as they might implement other shulker box items (but this is highly unlikely)
-
-	//private static int _matchesInjectDyeCount = 0;
 
 
 	@Inject(
@@ -53,43 +51,6 @@ public abstract class MixinShulkerBoxColoringRecipe {
 			cir.setReturnValue(Craft2x2(craftingInventory));
 	}
 
-
-	// Safety net matching mixin(s)
-	/*
-	@ModifyVariable(
-			method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",
-			at = @At("STORE"),
-			ordinal = 1
-	)
-	private int DecreaseDyeCount(int value) {
-		return -100;
-	}
-
-	@Inject(
-			method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",
-			at = @At(
-					value = "JUMP",
-					opcode = Opcodes.IFEQ,
-					ordinal = 3,
-					shift = At.Shift.AFTER
-			)
-	)
-	private void CountDyes(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> cir) {
-		_matchesInjectDyeCount++;
-	}
-
-	@Inject(
-			method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",
-			at = @At("TAIL"),
-			locals = LocalCapture.PRINT,
-			cancellable = true
-	)
-	private void CustomReturn(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> cir, int i) {
-		cir.setReturnValue(i == 1 && _matchesInjectDyeCount > 0 && _matchesInjectDyeCount < 3);
-	}
-	 */
-
-	// Safety net crafting mixin
 
 
 	private boolean Matches3x3(CraftingInventory craftingInventory) {
@@ -323,17 +284,15 @@ public abstract class MixinShulkerBoxColoringRecipe {
 	 * @param secondaryColor
 	 */
 	private ItemStack GenerateCraftingResult(ItemStack inputStack, @Nullable DyeColor primaryColor, DualShulkerColor secondaryColor) {
-		if(primaryColor == null) {
+		if(primaryColor == null)
 			primaryColor = ( (ShulkerBoxItem) inputStack.getItem() ).getColor();
-			//primaryColor = ShulkerBoxBlock.getColor(inputStack.getItem());
-		}
+
 		ItemStack craftedStack = ShulkerBoxBlock.getItemStack(primaryColor);
 
 		if(secondaryColor == DualShulkerColor.BLANK) {
 			secondaryColor = DualShulkerNbt.ReadFrom(inputStack);
-			if(secondaryColor.isNone()) {
+			if(secondaryColor.isNone())
 				secondaryColor = DualShulkerColor.FromDyeColor(ShulkerBoxBlock.getColor(inputStack.getItem()));
-			}
 		}
 		if(primaryColor == secondaryColor.ToDyeColor())
 			secondaryColor = DualShulkerColor.NONE;

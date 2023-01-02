@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Random;
 
 public enum DualShulkerColor
 		implements StringIdentifiable {
@@ -57,12 +56,6 @@ public enum DualShulkerColor
 	}
 	public boolean notNone() {
 		return !isNone();
-	}
-
-
-	public static DualShulkerColor getRandom() {
-		Random rand = new Random();
-		return DualShulkerColor.byId( (byte)( rand.nextInt(256) - 128 ) );
 	}
 
 

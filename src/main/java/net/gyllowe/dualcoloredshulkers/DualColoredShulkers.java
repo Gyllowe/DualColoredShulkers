@@ -17,10 +17,10 @@ public class DualColoredShulkers implements ModInitializer {
 
 		if(FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			if(FabricLoader.getInstance().isModLoaded("entity_texture_features"))
-				LOGGER.warn("Mod incompatibility: Entity Texture Features. Disable \"enable custom block entities\" (and optionally \"enable emissive block entities\") in ETFs config to render shulker boxes base correctly.");
+				LOGGER.warn("Mod incompatibility: Entity Texture Features. Disable \"enable custom block entities\" (and optionally \"enable emissive block entities\") in ETFs config to render shulker boxes' base correctly.");
 
 			if(FabricLoader.getInstance().isModLoaded("enhancedblockentities"))
-				LOGGER.warn("Mod incompatibility: Enhanced Block Entities. Disable \"render enhanced shulker boxes\" in EBEs config to render shulker boxes base correctly.");
+				LOGGER.warn("Mod incompatibility: Enhanced Block Entities. Disable \"render enhanced shulker boxes\" in EBEs config to render shulker boxes' base correctly.");
 		}
 	}
 }

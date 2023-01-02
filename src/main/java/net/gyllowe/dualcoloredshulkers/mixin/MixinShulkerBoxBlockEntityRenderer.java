@@ -1,7 +1,7 @@
 package net.gyllowe.dualcoloredshulkers.mixin;
 
 import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
-import net.gyllowe.dualcoloredshulkers.DualSpriteTexturedVertexConsumer;
+import net.gyllowe.dualcoloredshulkers.replacing_mc_classes.DualSpriteTexturedVertexConsumer;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.client.render.RenderLayer;

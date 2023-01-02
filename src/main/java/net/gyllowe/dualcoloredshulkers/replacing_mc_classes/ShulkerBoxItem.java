@@ -1,5 +1,8 @@
-package net.gyllowe.dualcoloredshulkers;
+package net.gyllowe.dualcoloredshulkers.replacing_mc_classes;
 
+import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
+import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
+import net.gyllowe.dualcoloredshulkers.ItemNameGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.item.BlockItem;
@@ -27,9 +30,9 @@ public class ShulkerBoxItem
 	@Override
 	public Text getName(ItemStack stack) {
 		DualShulkerColor secondaryColor = DualShulkerNbt.ReadFrom(stack);
-		if(secondaryColor.isNone()) {
-			return Text.translatable(this.getTranslationKey(stack));
-		}
+		if(secondaryColor.isNone())
+			return super.getName(stack);
+
 		return ItemNameGenerator.GenerateText(this.color, secondaryColor);
 	}
 

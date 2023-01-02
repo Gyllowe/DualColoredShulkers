@@ -1,6 +1,6 @@
 package net.gyllowe.dualcoloredshulkers.mixin;
 
-import net.gyllowe.dualcoloredshulkers.ShulkerBoxItem;
+import net.gyllowe.dualcoloredshulkers.replacing_mc_classes.ShulkerBoxItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

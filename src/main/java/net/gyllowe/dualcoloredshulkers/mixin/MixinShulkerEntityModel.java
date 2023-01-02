@@ -1,4 +1,4 @@
-package net.gyllowe.dualcoloredshulkers.mixin.conditional;
+package net.gyllowe.dualcoloredshulkers.mixin;
 
 import net.gyllowe.dualcoloredshulkers.interfaces.DualSpriteVertexConsumer;
 import net.minecraft.client.model.ModelPart;
@@ -19,6 +19,11 @@ public abstract class MixinShulkerEntityModel<T extends ShulkerEntity>
 
 	@Override
 	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+		if(!(vertices instanceof DualSpriteVertexConsumer)) {
+			super.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+			return;
+		}
+
 		this.lid.render(matrices, vertices, light, overlay, red, green, blue, alpha);
 		( (DualSpriteVertexConsumer) vertices ).UseSecondarySprite(true);
 		this.base.render(matrices, vertices, light, overlay, red, green, blue, alpha);

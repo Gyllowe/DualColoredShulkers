@@ -2,8 +2,8 @@ package net.gyllowe.dualcoloredshulkers.mixin;
 
 import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
 import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
-import net.gyllowe.dualcoloredshulkers.ShulkerBlockState;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
+import net.gyllowe.dualcoloredshulkers.replacing_mc_classes.ShulkerBlockState;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
