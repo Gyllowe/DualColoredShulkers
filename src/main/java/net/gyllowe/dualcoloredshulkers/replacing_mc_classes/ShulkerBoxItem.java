@@ -2,7 +2,7 @@ package net.gyllowe.dualcoloredshulkers.replacing_mc_classes;
 
 import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
 import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
-import net.gyllowe.dualcoloredshulkers.ItemNameGenerator;
+import net.gyllowe.dualcoloredshulkers.ShulkerName;
 import net.minecraft.block.Block;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.item.BlockItem;
@@ -33,7 +33,7 @@ public class ShulkerBoxItem
 		if(secondaryColor.isNone())
 			return super.getName(stack);
 
-		return ItemNameGenerator.GenerateText(this.color, secondaryColor);
+		return ShulkerName.get(this.color, secondaryColor);
 	}
 
 

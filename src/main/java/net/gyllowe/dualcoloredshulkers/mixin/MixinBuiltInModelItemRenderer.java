@@ -3,13 +3,15 @@ package net.gyllowe.dualcoloredshulkers.mixin;
 import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DyeColor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,7 +38,7 @@ public abstract class MixinBuiltInModelItemRenderer {
 			},
 			locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private void RenderShulker(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, CallbackInfo ci, Item item, Block block, BlockEntity blockEntity) {
+	private void RenderShulker(ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, CallbackInfo ci, Item item, Block block, BlockEntity blockEntity, BlockState blockState, DyeColor dyeColor) {
 		( (DualColoredShulkerBlockEntity) blockEntity ).dualcoloredshulkers$setSecondaryColor(DualShulkerNbt.ReadFrom(stack));
 	}
 }

@@ -58,6 +58,9 @@ dependencies {
 
 
 
+	// Helper for conflicting injection points
+	modLocalRuntime "maven.modrinth:mixin-conflict-helper:${project.mixin_config_helper_version}"
+
 	// Speed up load times
 	modLocalRuntime "maven.modrinth:lazydfu:${project.lazydfu_version}"
 	if(project.minecraft_version.toString() == "1.19.2") {

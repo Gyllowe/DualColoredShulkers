@@ -9,6 +9,7 @@ import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.ShulkerBoxColoringRecipe;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.DyeColor;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -40,11 +41,11 @@ public abstract class MixinShulkerBoxColoringRecipe {
 	}
 
 	@Inject(
-			method = "craft(Lnet/minecraft/inventory/CraftingInventory;)Lnet/minecraft/item/ItemStack;",
+			method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",
 			at = @At("HEAD"),
 			cancellable = true
 	)
-	private void CustomCrafting(CraftingInventory craftingInventory, CallbackInfoReturnable<ItemStack> cir) {
+	private void CustomCrafting(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
 		if(craftingInventory.size() == 9)
 			cir.setReturnValue(Craft3x3(craftingInventory));
 		else if(craftingInventory.size() == 4)

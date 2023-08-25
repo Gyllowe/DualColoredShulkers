@@ -1,25 +1,23 @@
 package net.gyllowe.dualcoloredshulkers;
 
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.StringIdentifiable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-public enum DualShulkerColor
-		implements StringIdentifiable {
+public enum DualShulkerColor {
 	NONE(-2),
 	BLANK(-1),
 	WHITE(0),
 	ORANGE(1),
 	MAGENTA(2),
-	LIGHT_BLUE(3, "light blue", "Light Blue"),
+	LIGHT_BLUE(3),
 	YELLOW(4),
 	LIME(5),
 	PINK(6),
 	GRAY(7),
-	LIGHT_GRAY(8, "light gray", "Light Gray"),
+	LIGHT_GRAY(8),
 	CYAN(9),
 	PURPLE(10),
 	BLUE(11),
@@ -31,18 +29,12 @@ public enum DualShulkerColor
 
 	private static final DualShulkerColor[] VALUES;
 	private final byte id;
-	private final String name;
-	private final String nameCapitalized;
+	private final String translationKey;
 
 
-	DualShulkerColor(int id, String name, String nameCapitalized) {
+	DualShulkerColor(int id, String translationKeyEnd) {
 		this.id = (byte)id;
-		this.name = (name == null) ? this.name().toLowerCase() : name;
-		this.nameCapitalized = (nameCapitalized == null) ? this.name.substring(0, 1).toUpperCase() + this.name.substring(1) : nameCapitalized;
-	}
-
-	DualShulkerColor(int id, String name) {
-		this(id, name, null);
+		this.translationKey = ( (translationKeyEnd == null) ? this.name().toLowerCase() : translationKeyEnd );
 	}
 
 	DualShulkerColor(int id) {
@@ -79,18 +71,8 @@ public enum DualShulkerColor
 	}
 
 
-	public String toString() {
-		return this.name;
-	}
-
-	@Override
-	public String asString() {
-		return this.name;
-	}
-
-
-	public String GetNameCapitalized() {
-		return this.nameCapitalized;
+	public String getTranslationKey() {
+		return this.translationKey;
 	}
 
 
