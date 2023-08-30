@@ -1,8 +1,8 @@
-package net.gyllowe.dualcoloredshulkers.mixin;
+package net.gyllowe.dualcoloredshulkers.mixin.rendering;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualSpriteVertexConsumer;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.CompositeEntityModel;
 import net.minecraft.client.render.entity.model.ShulkerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
@@ -25,8 +25,9 @@ public abstract class MixinShulkerEntityModel<T extends ShulkerEntity>
 		}
 
 		this.lid.render(matrices, vertices, light, overlay, red, green, blue, alpha);
-		( (DualSpriteVertexConsumer) vertices ).UseSecondarySprite(true);
+		( (DualSpriteVertexConsumer) vertices ).useSecondarySprite(true);
 		this.base.render(matrices, vertices, light, overlay, red, green, blue, alpha);
-		( (DualSpriteVertexConsumer) vertices ).UseSecondarySprite(false);
+		( (DualSpriteVertexConsumer) vertices ).useSecondarySprite(false);
 	}
+
 }

@@ -1,4 +1,4 @@
-package net.gyllowe.dualcoloredshulkers;
+package net.gyllowe.dualcoloredshulkers.util;
 
 import net.minecraft.util.DyeColor;
 import org.jetbrains.annotations.Nullable;
@@ -34,13 +34,22 @@ public enum DualShulkerColor {
 
 	DualShulkerColor(int id, String translationKeyEnd) {
 		this.id = (byte)id;
-		this.translationKey = ( (translationKeyEnd == null) ? this.name().toLowerCase() : translationKeyEnd );
+		this.translationKey = (translationKeyEnd == null) ? this.name().toLowerCase() : translationKeyEnd;
 	}
 
 	DualShulkerColor(int id) {
 		this(id, null);
 	}
 
+
+
+	public static DualShulkerColor byId(byte id) {
+		return (id < -2 || id + 2 >= VALUES.length) ? DualShulkerColor.NONE : VALUES[id + 2];
+	}
+
+	public byte getId() {
+		return this.id;
+	}
 
 
 	public boolean isNone() {
@@ -51,41 +60,22 @@ public enum DualShulkerColor {
 	}
 
 
-	public byte getId() {
-		return this.id;
+	@Nullable
+	public DyeColor toDyeColor() {
+		return (this.id < 0) ? null : DyeColor.byId(this.id);
 	}
 
-	public byte GetDyeColorCompatibleId() {
-		if(this.id < 0) {
-			return 0;
-		}
-		return this.getId();
+	public static DualShulkerColor fromDyeColor(@Nullable DyeColor dyeColor) {
+		return (dyeColor == null) ? DualShulkerColor.BLANK : DualShulkerColor.byId( (byte) dyeColor.getId() );
 	}
 
-	public static DualShulkerColor byId(byte id) {
-		id += 2;
-		if(id < 0 || id >= VALUES.length) {
-			id = 0;
-		}
-		return VALUES[id];
-	}
 
+	public byte getDyeColorCompatibleId() {
+		return (this.id < 0) ? 0 : this.id;
+	}
 
 	public String getTranslationKey() {
 		return this.translationKey;
-	}
-
-
-	@Nullable
-	public DyeColor ToDyeColor() {
-		if(this.id < 0) {
-			return null;
-		}
-		return DyeColor.byId(this.id);
-	}
-
-	public static DualShulkerColor FromDyeColor(@Nullable DyeColor dyeColor) {
-		return (dyeColor == null) ? DualShulkerColor.BLANK : DualShulkerColor.byId( (byte) dyeColor.getId() );
 	}
 
 

@@ -1,40 +1,42 @@
 {
-  "schemaVersion": 1,
-  "id": "dualcoloredshulkers",
-  "version": "${version}",
+	"schemaVersion": 1,
+	"id": "dualcoloredshulkers",
+	"version": "${version}",
 
-  "name": "Dual Colored Shulkers Mod",
-  "description": "Dye both halves of shulker boxes separately!",
-  "authors": [
-    "Gyllowe"
-  ],
-  "contact": {
-    "sources": "https://github.com/Gyllowe/DualColoredShulkers",
-    "issues": "https://github.com/Gyllowe/DualColoredShulkers/issues"
-  },
+	"name": "Dual Colored Shulkers Mod",
+	"description": "Dye both halves of shulker boxes separately!",
+	"icon": "assets/dualcoloredshulkers/icon.png",
 
-  "license": "MIT Licence",
-  "icon": "assets/dualcoloredshulkers/icon.png",
+	"authors": [
+		"Gyllowe"
+	],
+	"contact": {
+		"sources": "https://github.com/Gyllowe/DualColoredShulkers",
+		"issues": "https://github.com/Gyllowe/DualColoredShulkers/issues"
+	},
+	"license": "MIT Licence",
 
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "net.gyllowe.dualcoloredshulkers.DualColoredShulkers"
-    ]
-  },
-  "mixins": [
-    "dualcoloredshulkers.mixins.json"
-  ],
-  "accessWidener" : "DualColoredShulkers.accesswidener",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.gyllowe.dualcoloredshulkers.DualColoredShulkers"
+		],
+		"client": [
+			"net.gyllowe.dualcoloredshulkers.DualColoredShulkersClient"
+		]
+	},
+	"mixins": [
+		"dualcoloredshulkers.mixins.json"
+	],
+	"accessWidener" : "DualColoredShulkers.accesswidener",
 
-  "depends": {
-    "fabricloader": ">=0.14.11",
-    "fabric-loot-api-v2": "*",
-    "minecraft": "~1.19",
-    "java": ">=17"
-  },
-  "conflicts": {
-    "entity_texture_features": "*",
-    "enhancedblockentities": "*"
-  }
+	"depends": {
+		"fabricloader": ">=0.14.11",
+		"fabric-loot-api-v2": "*",
+		"minecraft": "1.19.4"
+	},
+	"conflicts": {
+		"entity_texture_features": "*",
+		"enhancedblockentities": "*"
+	}
 }

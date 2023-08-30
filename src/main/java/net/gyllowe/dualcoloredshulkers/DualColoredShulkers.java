@@ -13,7 +13,7 @@ public class DualColoredShulkers implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ModRegistries.RegisterAll();
+		ModRegistries.registerAll();
 
 		if(FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			if(FabricLoader.getInstance().isModLoaded("entity_texture_features"))
@@ -23,4 +23,5 @@ public class DualColoredShulkers implements ModInitializer {
 				LOGGER.warn("Mod incompatibility: Enhanced Block Entities. Disable \"render enhanced shulker boxes\" in EBEs config to render shulker boxes' base correctly.");
 		}
 	}
+
 }

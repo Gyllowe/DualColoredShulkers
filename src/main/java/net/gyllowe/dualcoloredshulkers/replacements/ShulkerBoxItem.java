@@ -1,8 +1,8 @@
-package net.gyllowe.dualcoloredshulkers.replacing_mc_classes;
+package net.gyllowe.dualcoloredshulkers.replacements;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
-import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
-import net.gyllowe.dualcoloredshulkers.ShulkerName;
+import net.gyllowe.dualcoloredshulkers.language.ShulkerName;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerColor;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerNbt;
 import net.minecraft.block.Block;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.item.BlockItem;
@@ -29,7 +29,7 @@ public class ShulkerBoxItem
 
 	@Override
 	public Text getName(ItemStack stack) {
-		DualShulkerColor secondaryColor = DualShulkerNbt.ReadFrom(stack);
+		DualShulkerColor secondaryColor = DualShulkerNbt.readFrom(stack);
 		if(secondaryColor.isNone())
 			return super.getName(stack);
 
@@ -41,4 +41,5 @@ public class ShulkerBoxItem
 	public DyeColor getColor() {
 		return this.color;
 	}
+
 }

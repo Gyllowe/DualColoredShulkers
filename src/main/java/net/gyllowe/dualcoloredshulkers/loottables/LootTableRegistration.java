@@ -1,7 +1,6 @@
-package net.gyllowe.dualcoloredshulkers.util;
+package net.gyllowe.dualcoloredshulkers.loottables;
 
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.gyllowe.dualcoloredshulkers.DualShulkerColorLootFunction;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 
@@ -29,11 +28,11 @@ public abstract class LootTableRegistration {
 	};
 
 
-	public static void RegisterShulkerBoxLootTableEvent() {
+	public static void registerShulkerBoxLootTableEvent() {
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
-			if(!source.isBuiltin()) {
+			if(!source.isBuiltin())
 				return;
-			}
+
 			if(Arrays.asList(_shulkerBoxLootTableIds).contains(id)) {
 				tableBuilder.apply(
 						DualShulkerColorLootFunction.builder()
@@ -41,4 +40,5 @@ public abstract class LootTableRegistration {
 			}
 		});
 	}
+
 }

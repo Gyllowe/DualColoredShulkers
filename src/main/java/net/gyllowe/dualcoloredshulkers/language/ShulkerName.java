@@ -1,5 +1,6 @@
-package net.gyllowe.dualcoloredshulkers;
+package net.gyllowe.dualcoloredshulkers.language;
 
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerColor;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import org.jetbrains.annotations.Nullable;
@@ -16,23 +17,24 @@ public abstract class ShulkerName {
 			FIRST_CAPITALISED_KEY = "dcs.first_capitalized.",
 			ALL_CAPITALISED_KEY = "dcs.all_capitalized.";
 
-	// Map for syntaxCapitalisation:
-	// 0, x - dual colored
-	//	 0, 0 - primary color
-	//	 0, 1 - secondary color
-	//	 0, 2 - shulker box
-	// 1, x - lid colored
-	//	 1, 0 - primary color
-	//	 1, 1 - shulker box
-	// 2, x - base colored
-	//	 2, 0 - secondary color
-	//	 2, 1 - shulker box
+	/*
+	 * Map for syntaxCapitalisation:
+	 * 0, x - dual colored
+	 *	 0, 0 - primary color
+	 *	 0, 1 - secondary color
+	 *	 0, 2 - shulker box
+	 * 1, x - lid colored
+	 *	 1, 0 - primary color
+	 *	 1, 1 - shulker box
+	 * 2, x - base colored
+	 *	 2, 0 - secondary color
+	 *	 2, 1 - shulker box
+	 */
 	private static final byte[][] syntaxCapitalisation = new byte[][]{
 			{0, 0, 0},
 			{0, 0},
 			{0, 0}
 	};
-
 
 
 	public static void reloadSyntaxCaps() {
@@ -77,7 +79,6 @@ public abstract class ShulkerName {
 		);
 	}
 
-
 	private static Text getCapitalisation(String key, byte capitalisation) {
 		return switch(capitalisation) {
 			case 0 -> Text.translatable(LOWER_KEY + key);
@@ -85,4 +86,5 @@ public abstract class ShulkerName {
 			default -> Text.translatable(ALL_CAPITALISED_KEY + key);
 		};
 	}
+
 }

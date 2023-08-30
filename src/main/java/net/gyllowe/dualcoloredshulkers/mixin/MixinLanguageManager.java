@@ -1,6 +1,6 @@
 package net.gyllowe.dualcoloredshulkers.mixin;
 
-import net.gyllowe.dualcoloredshulkers.ShulkerName;
+import net.gyllowe.dualcoloredshulkers.language.ShulkerName;
 import net.minecraft.client.resource.language.LanguageManager;
 import net.minecraft.resource.ResourceManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,4 +19,5 @@ public abstract class MixinLanguageManager {
 	private void generateSyntaxCaps(ResourceManager manager, CallbackInfo ci) {
 		ShulkerName.reloadSyntaxCaps();
 	}
+
 }

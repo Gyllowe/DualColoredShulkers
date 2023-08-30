@@ -1,6 +1,6 @@
 package net.gyllowe.dualcoloredshulkers.interfaces;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerColor;
 
 public interface DualColoredShulkerBlockEntity {
 	DualShulkerColor dualcoloredshulkers$getSecondaryColor();
@@ -8,4 +8,5 @@ public interface DualColoredShulkerBlockEntity {
 	void dualcoloredshulkers$setSecondaryColor(DualShulkerColor secondaryColor);
 
 	void dualcoloredshulkers$removeSecondaryColor();
+
 }

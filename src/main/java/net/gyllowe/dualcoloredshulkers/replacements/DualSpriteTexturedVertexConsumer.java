@@ -1,8 +1,8 @@
-package net.gyllowe.dualcoloredshulkers.replacing_mc_classes;
+package net.gyllowe.dualcoloredshulkers.replacements;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualSpriteVertexConsumer;
 import net.minecraft.client.render.SpriteTexturedVertexConsumer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.texture.Sprite;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +16,7 @@ public class DualSpriteTexturedVertexConsumer
 
 
 	/**
-	 * Pass null as secondSprite to have only 1 sprite
+	 * Pass null into secondSprite to only use 1 sprite
 	 */
 	public DualSpriteTexturedVertexConsumer(VertexConsumer delegate, Sprite sprite, @Nullable Sprite secondSprite) {
 		super(delegate, sprite);
@@ -26,11 +26,12 @@ public class DualSpriteTexturedVertexConsumer
 	}
 
 	public DualSpriteTexturedVertexConsumer(VertexConsumer delegate, Sprite sprite, Boolean hasTwoSprites, @Nullable Sprite secondSprite) {
-		this(delegate, sprite, (hasTwoSprites) ? secondSprite : null);
+		this(delegate, sprite, (hasTwoSprites && secondSprite != null) ? secondSprite : null);
 	}
 
 
-	public void UseSecondarySprite(boolean input) {
+	public void useSecondarySprite(boolean input) {
 		sprite = (input && hasTwoSprites) ? secondSprite : firstSprite;
 	}
+
 }

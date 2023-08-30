@@ -1,8 +1,8 @@
-package net.gyllowe.dualcoloredshulkers.mixin;
+package net.gyllowe.dualcoloredshulkers.mixin.main;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
-import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerColor;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerNbt;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
@@ -38,7 +38,7 @@ public abstract class MixinShulkerBoxBlockEntity
 			at = @At("TAIL")
 	)
 	private void readNbtInject(NbtCompound nbt, CallbackInfo ci) {
-		secondaryColor = DualShulkerNbt.ReadFrom(nbt);
+		secondaryColor = DualShulkerNbt.readFrom(nbt);
 	}
 
 	@Inject(
@@ -46,34 +46,29 @@ public abstract class MixinShulkerBoxBlockEntity
 			at = @At("TAIL")
 	)
 	private void writeNbtInject(NbtCompound nbt, CallbackInfo ci) {
-		DualShulkerNbt.WriteTo(nbt, secondaryColor);
+		DualShulkerNbt.writeTo(nbt, secondaryColor);
 	}
 
 
 	@Override
-	public void setStackNbt(ItemStack stack) {
-		super.setStackNbt(stack);
+	public void writeNbtToStack(ItemStack stack) {
+		super.writeNbtToStack(stack);
 		if(this.secondaryColor.notNone()) {
-			DualShulkerNbt.RemoveWithinBlockEntityNbt(stack);
-			DualShulkerNbt.SetNbt(stack, this.secondaryColor);
+			DualShulkerNbt.removeWithinBlockEntityNbt(stack);
+			DualShulkerNbt.setNbt(stack, this.secondaryColor);
 		}
 	}
 
 
 	@Override
 	public BlockEntityUpdateS2CPacket toUpdatePacket() {
-		return BlockEntityUpdateS2CPacket.create(this);
-		/*
-		ShulkerBoxBlockEntity blockEntity = new ShulkerBoxBlockEntity(cachedColor, pos, this.getCachedState());
-		( (DualColoredShulkerBlockEntity) blockEntity ).dualcoloredshulkers$setSecondaryColor(this.secondaryColor);
-		return BlockEntityUpdateS2CPacket.create(blockEntity);
-		 */
+		return BlockEntityUpdateS2CPacket.of(this);
 	}
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
-		//return this.createNbt();
+	public NbtCompound toSyncedNbt() {
+		//return this.toNbt();
 		NbtCompound nbtCompound = new NbtCompound();
-		DualShulkerNbt.WriteTo(nbtCompound, secondaryColor);
+		DualShulkerNbt.writeTo(nbtCompound, secondaryColor);
 		return nbtCompound;
 	}
 
@@ -84,10 +79,15 @@ public abstract class MixinShulkerBoxBlockEntity
 	}
 	@Unique
 	public void dualcoloredshulkers$setSecondaryColor(DualShulkerColor dualShulkerColor) {
-		if(dualShulkerColor.ToDyeColor() == cachedColor) {
+		if(dualShulkerColor.toDyeColor() == cachedColor) {
 			this.secondaryColor = DualShulkerColor.NONE;
 			return;
 		}
 		secondaryColor = dualShulkerColor;
 	}
+	@Unique
+	public void dualcoloredshulkers$removeSecondaryColor() {
+		secondaryColor = DualShulkerColor.NONE;
+	}
+
 }

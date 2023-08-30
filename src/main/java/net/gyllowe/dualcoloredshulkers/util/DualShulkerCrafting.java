@@ -1,25 +1,15 @@
-package net.gyllowe.dualcoloredshulkers.mixin;
+package net.gyllowe.dualcoloredshulkers.util;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
-import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
-import net.gyllowe.dualcoloredshulkers.replacing_mc_classes.ShulkerBoxItem;
+import net.gyllowe.dualcoloredshulkers.replacements.ShulkerBoxItem;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.ShulkerBoxColoringRecipe;
-import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.DyeColor;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ShulkerBoxColoringRecipe.class)
-public abstract class MixinShulkerBoxColoringRecipe {
+public abstract class DualShulkerCrafting {
 	// P.S: every if statement check:
 	// if(itemStack.getItem() instanceof ShulkerBoxItem)
 	// could be replaced with
@@ -28,34 +18,8 @@ public abstract class MixinShulkerBoxColoringRecipe {
 	// as they might implement other shulker box items (but this is highly unlikely)
 
 
-	@Inject(
-			method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",
-			at = @At("HEAD"),
-			cancellable = true
-	)
-	private void CustomMatching(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> cir) {
-		if(craftingInventory.size() == 9)
-			cir.setReturnValue(Matches3x3(craftingInventory));
-		else if(craftingInventory.size() == 4)
-			cir.setReturnValue(Matches2x2(craftingInventory));
-	}
+	public static boolean matches3x3(CraftingInventory craftingInventory) {
 
-	@Inject(
-			method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",
-			at = @At("HEAD"),
-			cancellable = true
-	)
-	private void CustomCrafting(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
-		if(craftingInventory.size() == 9)
-			cir.setReturnValue(Craft3x3(craftingInventory));
-		else if(craftingInventory.size() == 4)
-			cir.setReturnValue(Craft2x2(craftingInventory));
-	}
-
-
-
-	private boolean Matches3x3(CraftingInventory craftingInventory) {
-		
 		byte firstItemSlot = -1;
 		for(byte i = 3; i < 9; i++) {
 			if(!craftingInventory.getStack(i).isEmpty()) {
@@ -86,7 +50,7 @@ public abstract class MixinShulkerBoxColoringRecipe {
 					dyeFound = true;
 
 				} else
-						return false;
+					return false;
 			}
 
 			return shulkerFound && dyeFound;
@@ -115,8 +79,8 @@ public abstract class MixinShulkerBoxColoringRecipe {
 					if(shulkerFound)
 						return false;
 					shulkerFound = true;
-					shulkerColor = DualShulkerColor.FromDyeColor(shulkerBoxItem.getColor());
-					shulkerBottomColor = DualShulkerNbt.ReadFrom(stack);
+					shulkerColor = DualShulkerColor.fromDyeColor(shulkerBoxItem.getColor());
+					shulkerBottomColor = DualShulkerNbt.readFrom(stack);
 					if(shulkerBottomColor.isNone())
 						shulkerBottomColor = shulkerColor;
 				} else if(item instanceof DyeItem dyeItem) {
@@ -124,10 +88,10 @@ public abstract class MixinShulkerBoxColoringRecipe {
 
 					if(row != 2 && dyeingFullShulker == null) {
 						dyeingFullShulker = (row == 1);
-						fullOrPrimaryColor = DualShulkerColor.FromDyeColor(dyeItem.getColor());
+						fullOrPrimaryColor = DualShulkerColor.fromDyeColor(dyeItem.getColor());
 					} else if(row == 2 && !Boolean.TRUE.equals(dyeingFullShulker) && secondaryColor.isNone()) {
 						dyeingFullShulker = false;
-						secondaryColor = DualShulkerColor.FromDyeColor(dyeItem.getColor());
+						secondaryColor = DualShulkerColor.fromDyeColor(dyeItem.getColor());
 					} else
 						return false;
 
@@ -151,7 +115,7 @@ public abstract class MixinShulkerBoxColoringRecipe {
 		}
 	}
 
-	private boolean Matches2x2(CraftingInventory craftingInventory) {
+	public static boolean matches2x2(CraftingInventory craftingInventory) {
 
 		boolean shulkerFound = false;
 		byte dyes = 0;
@@ -178,7 +142,7 @@ public abstract class MixinShulkerBoxColoringRecipe {
 	}
 
 
-	private ItemStack Craft3x3(CraftingInventory craftingInventory) {
+	public static ItemStack craft3x3(CraftingInventory craftingInventory) {
 		// The logic for quick crafting requires that all items are in the top row
 		boolean quickCraft = true;
 		byte firstItemSlot = -1;
@@ -201,6 +165,7 @@ public abstract class MixinShulkerBoxColoringRecipe {
 		int rowAndColumnDivider = (quickCraft) ? 1 : 3;
 
 		for(byte i = 0; i < endAt; i++) {
+			// Skip empty slots checked in quick craft checking
 			if(firstItemSlot > 3 && i == 3)
 				i = firstItemSlot;
 
@@ -209,31 +174,37 @@ public abstract class MixinShulkerBoxColoringRecipe {
 				continue;
 
 			Item item = stack.getItem();
-			if(item instanceof ShulkerBoxItem)
+			if(item instanceof ShulkerBoxItem) {
 				shulkerItemStack = stack;
+				continue;
+			}
+			if(!(item instanceof DyeItem dyeItem))
+				continue;
 
-			else if(item instanceof DyeItem dyeItem) {
-				int rowOrColumn = i / rowAndColumnDivider;
+			// The region being scanned
+			// Normal and quick crafting have different regions:
+			// columns in quick crafting and rows in normal crafting
+			int region = i / rowAndColumnDivider;
 
-				if(!foundFirstDye && rowOrColumn != 2) {
-					foundFirstDye = true;
-					fullOrPrimaryColor = dyeItem.getColor();
-					if(rowOrColumn == 1)
-						secondaryColor = DualShulkerColor.NONE;
-				} else
-					secondaryColor = DualShulkerColor.FromDyeColor(dyeItem.getColor());
+			if(!foundFirstDye && region != 2) {
+				foundFirstDye = true;
+				fullOrPrimaryColor = dyeItem.getColor();
+				if(region == 1)
+					secondaryColor = DualShulkerColor.NONE;
+			} else {
+				secondaryColor = DualShulkerColor.fromDyeColor(dyeItem.getColor());
 			}
 		}
 
 		if(secondaryColor.isNone())
 			// coloring the whole shulker
-			return GenerateCraftingResult(shulkerItemStack, fullOrPrimaryColor);
+			return generateCraftingResult(shulkerItemStack, fullOrPrimaryColor);
 		else
 			// coloring parts individually
-			return GenerateCraftingResult(shulkerItemStack, fullOrPrimaryColor, secondaryColor);
+			return generateCraftingResult(shulkerItemStack, fullOrPrimaryColor, secondaryColor);
 	}
 
-	private ItemStack Craft2x2(CraftingInventory craftingInventory) {
+	public static ItemStack craft2x2(CraftingInventory craftingInventory) {
 
 		int shulkerRow = 0;
 		ItemStack shulkerItemStack = ItemStack.EMPTY;
@@ -267,13 +238,13 @@ public abstract class MixinShulkerBoxColoringRecipe {
 		if(!secondColorFound) {
 			// Only one color found
 			if(shulkerRow == singleColorRow)
-				return GenerateCraftingResult(shulkerItemStack, firstColor);
+				return generateCraftingResult(shulkerItemStack, firstColor);
 
 			if(shulkerRow + 1 == singleColorRow)
-				return GenerateCraftingResult(shulkerItemStack, null, DualShulkerColor.FromDyeColor(firstColor));
+				return generateCraftingResult(shulkerItemStack, null, DualShulkerColor.fromDyeColor(firstColor));
 		}
 
-		return GenerateCraftingResult(shulkerItemStack, firstColor, DualShulkerColor.FromDyeColor(secondColor));
+		return generateCraftingResult(shulkerItemStack, firstColor, DualShulkerColor.fromDyeColor(secondColor));
 	}
 
 
@@ -284,22 +255,22 @@ public abstract class MixinShulkerBoxColoringRecipe {
 	 * @param primaryColor
 	 * @param secondaryColor
 	 */
-	private ItemStack GenerateCraftingResult(ItemStack inputStack, @Nullable DyeColor primaryColor, DualShulkerColor secondaryColor) {
+	public static ItemStack generateCraftingResult(ItemStack inputStack, @Nullable DyeColor primaryColor, DualShulkerColor secondaryColor) {
 		if(primaryColor == null)
 			primaryColor = ( (ShulkerBoxItem) inputStack.getItem() ).getColor();
 
 		ItemStack craftedStack = ShulkerBoxBlock.getItemStack(primaryColor);
 
 		if(secondaryColor == DualShulkerColor.BLANK) {
-			secondaryColor = DualShulkerNbt.ReadFrom(inputStack);
+			secondaryColor = DualShulkerNbt.readFrom(inputStack);
 			if(secondaryColor.isNone())
-				secondaryColor = DualShulkerColor.FromDyeColor(ShulkerBoxBlock.getColor(inputStack.getItem()));
+				secondaryColor = DualShulkerColor.fromDyeColor(ShulkerBoxBlock.getColor(inputStack.getItem()));
 		}
-		if(primaryColor == secondaryColor.ToDyeColor())
+		if(primaryColor == secondaryColor.toDyeColor())
 			secondaryColor = DualShulkerColor.NONE;
 		if(inputStack.hasNbt())
 			craftedStack.setNbt(inputStack.getNbt().copy());
-		DualShulkerNbt.SetNbt(craftedStack, secondaryColor);
+		DualShulkerNbt.setNbt(craftedStack, secondaryColor);
 		return craftedStack;
 	}
 
@@ -308,7 +279,8 @@ public abstract class MixinShulkerBoxColoringRecipe {
 	 * @param inputStack
 	 * @param primaryColor
 	 */
-	private ItemStack GenerateCraftingResult(ItemStack inputStack, DyeColor primaryColor) {
-		return GenerateCraftingResult(inputStack, primaryColor, DualShulkerColor.NONE);
+	public static ItemStack generateCraftingResult(ItemStack inputStack, DyeColor primaryColor) {
+		return generateCraftingResult(inputStack, primaryColor, DualShulkerColor.NONE);
 	}
+
 }

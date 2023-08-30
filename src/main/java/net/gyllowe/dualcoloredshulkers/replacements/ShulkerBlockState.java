@@ -1,9 +1,9 @@
-package net.gyllowe.dualcoloredshulkers.replacing_mc_classes;
+package net.gyllowe.dualcoloredshulkers.replacements;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
-import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
@@ -32,6 +32,7 @@ public class ShulkerBlockState extends BlockState {
 		if(secondaryColor.isNone())
 			return super.getMapColor(world, pos);
 
-		return ShulkerBoxBlock.get(secondaryColor.ToDyeColor()).getDefaultMapColor();
+		return ShulkerBoxBlock.get(secondaryColor.toDyeColor()).getDefaultMapColor();
 	}
+
 }

@@ -1,10 +1,13 @@
-package net.gyllowe.dualcoloredshulkers.mixin;
+package net.gyllowe.dualcoloredshulkers.mixin.main;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerColor;
-import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
 import net.gyllowe.dualcoloredshulkers.interfaces.DualColoredShulkerBlockEntity;
-import net.gyllowe.dualcoloredshulkers.replacing_mc_classes.ShulkerBlockState;
-import net.minecraft.block.*;
+import net.gyllowe.dualcoloredshulkers.replacements.ShulkerBlockState;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerColor;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerNbt;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -32,11 +35,10 @@ public abstract class MixinShulkerBoxBlock
 					shift = At.Shift.AFTER
 			)
 	)
-	private void SetShulkerBlockState(DyeColor color, AbstractBlock.Settings settings, CallbackInfo ci) {
+	private void setShulkerBlockState(DyeColor color, Settings settings, CallbackInfo ci) {
 		StateManager.Builder<Block, BlockState> builder = new StateManager.Builder<>(this);
 		this.appendProperties(builder);
 		this.stateManager = builder.build(Block::getDefaultState, ShulkerBlockState::new);
-		this.setDefaultState(this.stateManager.getDefaultState());
 	}
 
 
@@ -44,10 +46,11 @@ public abstract class MixinShulkerBoxBlock
 			method = "onPlaced",
 			at = @At("TAIL")
 	)
-	private void SetSecondaryColorFromItemStack(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
+	private void setSecondaryColorFromItemStack(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		DualShulkerColor itemStackSecondaryColor = DualShulkerNbt.ReadFrom(itemStack);
+		DualShulkerColor itemStackSecondaryColor = DualShulkerNbt.readFrom(itemStack);
 		if(itemStackSecondaryColor.notNone())
 			( (DualColoredShulkerBlockEntity) blockEntity ).dualcoloredshulkers$setSecondaryColor(itemStackSecondaryColor);
 	}
+
 }

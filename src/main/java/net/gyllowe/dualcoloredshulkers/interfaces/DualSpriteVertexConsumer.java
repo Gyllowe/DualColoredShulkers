@@ -1,8 +1,9 @@
 package net.gyllowe.dualcoloredshulkers.interfaces;
 
-import net.minecraft.client.render.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 public interface DualSpriteVertexConsumer
 		extends VertexConsumer {
-	void UseSecondarySprite(boolean input);
+	void useSecondarySprite(boolean input);
+
 }

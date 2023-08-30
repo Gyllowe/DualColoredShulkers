@@ -1,6 +1,6 @@
-package net.gyllowe.dualcoloredshulkers.mixin;
+package net.gyllowe.dualcoloredshulkers.mixin.main;
 
-import net.gyllowe.dualcoloredshulkers.DualShulkerNbt;
+import net.gyllowe.dualcoloredshulkers.util.DualShulkerNbt;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -41,7 +41,7 @@ public interface MixinCauldronBehavior {
 					shift = At.Shift.BEFORE
 			)
 	)
-	private static void AddBlankShulkerToCleanableShulkers(CallbackInfo ci) {
+	private static void cleanableBlankShulkers(CallbackInfo ci) {
 		WATER_CAULDRON_BEHAVIOR.put(Items.SHULKER_BOX, CLEAN_SHULKER_BOX);
 	}
 
@@ -55,8 +55,8 @@ public interface MixinCauldronBehavior {
 			cancellable = true,
 			locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private static void ReturnIfShulkerIsClean(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir, Block block) {
-		if(block == Blocks.SHULKER_BOX && !DualShulkerNbt.Contains(stack))
+	private static void returnIfShulkerClean(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir, Block block) {
+		if(block == Blocks.SHULKER_BOX && !DualShulkerNbt.contains(stack))
 			cir.setReturnValue(ActionResult.PASS);
 	}
 
@@ -69,10 +69,11 @@ public interface MixinCauldronBehavior {
 			),
 			locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private static void RemoveSecondaryColor(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir, Block block, ItemStack itemStack) {
+	private static void removeSecondaryColor(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir, Block block, ItemStack itemStack) {
 		NbtCompound nbt = itemStack.getNbt();
-		DualShulkerNbt.RemoveNbt(nbt);
+		DualShulkerNbt.removeFrom(nbt);
 		if(nbt.isEmpty())
 			itemStack.setNbt(null);
 	}
+
 }

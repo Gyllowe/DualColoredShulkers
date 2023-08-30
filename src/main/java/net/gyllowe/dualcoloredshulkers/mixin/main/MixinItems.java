@@ -1,6 +1,6 @@
-package net.gyllowe.dualcoloredshulkers.mixin;
+package net.gyllowe.dualcoloredshulkers.mixin.main;
 
-import net.gyllowe.dualcoloredshulkers.replacing_mc_classes.ShulkerBoxItem;
+import net.gyllowe.dualcoloredshulkers.replacements.ShulkerBoxItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -34,7 +34,8 @@ public abstract class MixinItems {
 					args = "class=net/minecraft/item/BlockItem"
 			)
 	)
-	private static BlockItem ReplaceBlockItemWithShulkerBoxItem(Block block, Item.Settings settings) {
+	private static BlockItem replaceBlockItemWithShulkerBoxItem(Block block, Item.Settings settings) {
 		return new ShulkerBoxItem(block, settings);
 	}
+
 }
