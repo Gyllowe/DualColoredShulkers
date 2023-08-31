@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 
 public abstract class DualShulkerNbt {
-	private static final String DUAL_SHULKER_COLOR_KEY = "BaseColor";
+	private static final String DUAL_SHULKER_COLOR_KEY = "DualColor";
 
 
 

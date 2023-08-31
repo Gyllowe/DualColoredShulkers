@@ -1,25 +1,32 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "net.gyllowe.dualcoloredshulkers.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "main.MixinShulkerBoxBlockEntity",
-    "main.MixinShulkerBoxBlock",
-    "main.MixinShulkerBoxColoringRecipe",
-    "main.MixinLootFunctionTypes",
-    "main.MixinCauldronBehavior",
-    "main.MixinItems"
-  ],
-  "client": [
-    "rendering.MixinBuiltInModelItemRenderer",
-    "rendering.MixinShulkerBoxBlockEntityRenderer",
-    "rendering.MixinShulkerEntityModel",
+	"required": true,
+	"minVersion": "0.8",
+	"package": "net.gyllowe.dualcoloredshulkers.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"main.MixinShulkerBoxBlockEntity",
+		"main.MixinShulkerBoxBlock",
+		"main.MixinShulkerBoxColoringRecipe",
+		"main.MixinLootFunctionTypes",
+		"main.MixinCauldronBehavior",
+		"main.MixinItems",
 
-    "MixinLanguageManager"
-  ],
-  "injectors": {
-    "defaultRequire": 1,
-    "maxShiftBy": 5
-  }
+		"particles.MixinWorld",
+		"particles.MixinLivingEntity"
+	],
+	"client": [
+		"rendering.MixinBuiltInModelItemRenderer",
+		"rendering.MixinShulkerBoxBlockEntityRenderer",
+		"rendering.MixinShulkerEntityModel",
+
+		"MixinLanguageManager",
+
+		"particles.MixinShulkerBoxBlockBreakParticles",
+		"particles.MixinPistonBlock",
+		"particles.MixinEntity"
+	],
+	"injectors": {
+		"defaultRequire": 1,
+		"maxShiftBy": 5
+	}
 }
